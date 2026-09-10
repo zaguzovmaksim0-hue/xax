@@ -23,6 +23,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 final class XtoryMatcherTest {
 
     @Test
+    void describesItselfBeforeMatching() {
+        MatcherAssert.assertThat(
+            "Matcher description is unavailable before matching",
+            new XtoryMatcher().toString(),
+            Matchers.containsString("XPath expressions matched")
+        );
+    }
+
+    @Test
     void printsItself() {
         MatcherAssert.assertThat(
             "No errors found in the story",

@@ -23,7 +23,7 @@ public final class XtoryMatcher extends BaseMatcher<Xtory> {
     /**
      * The header of the match.
      */
-    private String header;
+    private String header = "All XPath expressions matched";
 
     /**
      * The summary of the match.
