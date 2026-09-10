@@ -13,14 +13,31 @@ import org.eolang.jucs.ClasspathSource;
 import org.eolang.parser.EoSyntax;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.opentest4j.TestAbortedException;
 
 /**
  * Test case for {@link XtoryMatcher}.
  * @since 0.1.0
  */
 final class XtoryMatcherTest {
+
+    @Test
+    void runsStoryWhenSkipIsFalse() {
+        Assertions.assertDoesNotThrow(
+            () -> new XtoryMatcher().matches(XtoryMatcherTest.story(false))
+        );
+    }
+
+    @Test
+    void skipsStoryWhenSkipIsTrue() {
+        Assertions.assertThrows(
+            TestAbortedException.class,
+            () -> new XtoryMatcher().matches(XtoryMatcherTest.story(true))
+        );
+    }
 
     @Test
     void printsItself() {
@@ -95,4 +112,14 @@ final class XtoryMatcherTest {
             Matchers.not(new XtoryMatcher())
         );
     }
+
+    private static Xtory story(final boolean skip) {
+        return new XtYaml(
+            String.format(
+                "skip: %b%nsheets: []%ndocument: |%n  <doc/>%nasserts:%n  - /doc%n",
+                skip
+            )
+        );
+    }
+
 }

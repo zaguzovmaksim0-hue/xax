@@ -53,6 +53,9 @@ asserts:
   - /doc/foo[.='bye']
 ```
 
+An optional `skip: true` key disables a story. With `skip: false`, or when the
+key is absent, the story runs normally.
+
 Finally, make a unit test (using
 [JUnit5](https://github.com/junit-team/junit5),
 [Hamcrest](https://github.com/hamcrest/JavaHamcrest),
