@@ -34,19 +34,20 @@ final class XtoryTest {
                 "</xsl:stylesheet>"
             ).getBytes(StandardCharsets.UTF_8)
         );
-        final Xtory xtory = new XtYaml(
-            String.join(
-                System.lineSeparator(),
-                "sheets:",
-                String.format("  - %s", sheet.toUri()),
-                "document: <doc/>",
-                "asserts:",
-                "  - /changed"
-            )
-        );
         MatcherAssert.assertThat(
             "File URI stylesheet was not applied",
-            XhtmlMatchers.xhtml(xtory.after()),
+            XhtmlMatchers.xhtml(
+                new XtYaml(
+                    String.join(
+                        System.lineSeparator(),
+                        "sheets:",
+                        String.format("  - %s", sheet.toUri()),
+                        "document: <doc/>",
+                        "asserts:",
+                        "  - /changed"
+                    )
+                ).after()
+            ),
             XhtmlMatchers.hasXPath("/changed")
         );
     }
