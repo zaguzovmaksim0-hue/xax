@@ -5,6 +5,7 @@
 package org.eolang.xax;
 
 import com.jcabi.matchers.XhtmlMatchers;
+import com.jcabi.xml.XMLDocument;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.ResourceOf;
 import org.cactoos.text.TextOf;
@@ -13,6 +14,7 @@ import org.eolang.jucs.ClasspathSource;
 import org.eolang.parser.EoSyntax;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 
@@ -21,6 +23,33 @@ import org.junit.jupiter.params.ParameterizedTest;
  * @since 0.1.0
  */
 final class XtoryMatcherTest {
+
+    @Test
+    void validatesDecoratedAfterXml() {
+        final Xtory story = new XtStrictAfter(
+            new XtYaml(
+                String.join(
+                    System.lineSeparator(),
+                    "sheets: []",
+                    "document: <root>text</root>",
+                    "asserts:",
+                    "  - /root"
+                )
+            ),
+            new XMLDocument(
+                String.join(
+                    "",
+                    "<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>",
+                    "<xs:element name='root' type='xs:integer'/>",
+                    "</xs:schema>"
+                )
+            )
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new XtoryMatcher().matches(story)
+        );
+    }
 
     @Test
     void printsItself() {
