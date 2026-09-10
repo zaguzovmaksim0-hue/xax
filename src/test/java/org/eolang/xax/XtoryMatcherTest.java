@@ -16,7 +16,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.opentest4j.TestAbortedException;
 
 /**
  * Test case for {@link XtoryMatcher}.
@@ -33,9 +32,13 @@ final class XtoryMatcherTest {
 
     @Test
     void skipsStoryWhenSkipIsTrue() {
-        Assertions.assertThrows(
-            TestAbortedException.class,
-            () -> new XtoryMatcher().matches(XtoryMatcherTest.story(true))
+        MatcherAssert.assertThat(
+            "skip=true must abort the story",
+            Assertions.assertThrows(
+                RuntimeException.class,
+                () -> new XtoryMatcher().matches(XtoryMatcherTest.story(true))
+            ).getClass().getName(),
+            Matchers.equalTo("org.opentest4j.TestAbortedException")
         );
     }
 
