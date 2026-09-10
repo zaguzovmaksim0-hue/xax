@@ -23,7 +23,7 @@ public final class XtoryMatcher extends BaseMatcher<Xtory> {
     /**
      * The header of the match.
      */
-    private String header = "All XPath expressions matched";
+    private String header;
 
     /**
      * The summary of the match.
@@ -68,6 +68,7 @@ public final class XtoryMatcher extends BaseMatcher<Xtory> {
      */
     public XtoryMatcher(final Matcher<XML> ext) {
         super();
+        this.header = "All XPath expressions matched";
         this.extra = ext;
     }
 
